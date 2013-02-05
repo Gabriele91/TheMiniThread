@@ -3,6 +3,8 @@ TheMiniThread
 
 A tiny thread library
 
+tested under windows, linux and android.
+
 Examples
 -------
 
