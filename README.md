@@ -3,19 +3,39 @@ TheMiniThread
 
 A tiny thread library
 
-Example
-=============
+Examples
+-------
+
+Get return value:
 
 	int thread_main(void *args){
 		printf("%d",(int)(*args));
+		return (int)(*args);
 	}
 	
 	int maint(){
 		Thread th1(thread_main,10);
+		th1.Start();
+		return th1.Join();
+	}
+
+
+
+Set destructor type:
+
+	int thread_main(void *args){
+		printf("%d",(int)(*args));
+		return 0;
+	}
+	
+	int maint(){
+		Thread th1(thread_main,10,Thread::TERMINATE_JOIN);
+		th1.Start();
+		return 0
 	}
 
 The MIT License (MIT)
-=============
+-------
 
 Copyright (c) 2013 Gabriele Di Bari
 
