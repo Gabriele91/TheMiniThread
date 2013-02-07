@@ -2,29 +2,9 @@
 #define MUTEX_H
 
 #if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__) || defined(WIN32)
-	#define __DEF_MUTEX_WIN32
-    #include <windows.h>
-    typedef HANDLE mxrd_t;
+	#include "MutexWin32.inl"
 #else
-    #define __DEF_MUTEX_POSIX
-    #include <pthread.h>
-	typedef pthread_mutex_t mxrd_t;
+	#include "MutexPOSIX.inl"
 #endif
-
-
-class Mutex{
-
-public:
-
-	Mutex();
-	virtual ~Mutex();
-	bool lock(bool block=true);
-	void unlock();
-
-private:
-
-	mxrd_t mutex;
-
-};
 
 #endif

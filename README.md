@@ -1,7 +1,7 @@
 TheMiniThread
 =============
 
-A tiny thread library
+A tiny thread header only library
 
 tested under windows, linux and android.
 
