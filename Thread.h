@@ -1,7 +1,7 @@
-#ifndef STREAMING_THREAD_H
-#define STREAMING_THREAD_H
+#ifndef THREAD_H
+#define THREAD_H
 
-#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
+#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__) || defined(WIN32)
     #define __DEF_THREAD_WIN32
     #include <windows.h>
     typedef HANDLE thrd_t;
@@ -15,38 +15,40 @@ class Thread{
 
 	public:
 
-	enum ThreadState{
+	enum threadState{
 		SUCCESSFUL=0,
 		ERROR_CREATE,
 		ERROR_JOIN
 	};
-
-	enum ActionOnDelete{
+	enum actionOnDelete{
 		TERMINATE_NONE=0,
 		TERMINATE_JOIN,
 		TERMINATE_DELETE
 	};
-	
-	stfn mFunction;
-	void * mArg;
+    typedef int (*threadFunction)(void*);
 
-	Thread(stfn fn,void * arg,ActionOnDelete cad=TERMINATE_NONE);
-	~Thread();
-	static void YieldCpu();
-	static void SleepThread(unsigned int msec);
-	bool Start();
-	int Join();
-	void Destroy();
-	int GetError();
+	Thread(actionOnDelete cad=TERMINATE_NONE);
+	Thread(threadFunction fn,void* args=NULL,actionOnDelete cad=TERMINATE_NONE);
+	virtual ~Thread();
+	void yield();
+	void sleepThread(unsigned int msec);
+	bool start();
+	int join();
+	void destroy();
+	int getError();
+	virtual int run();
 
-	
+    protected:
+
+    threadFunction thisThFun;
+    void * thisThFunArgs;
+
 	private:
-	
-	typedef int (*stfn)(void *arg);
+
+	actionOnDelete cad;
 	thrd_t thr;
 	int th_error;
-	bool cad;
-	
+
 };
 
 #endif

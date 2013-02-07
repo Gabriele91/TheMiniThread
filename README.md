@@ -36,6 +36,31 @@ Set destructor type:
 		return 0
 	}
 
+OOPS thread:
+	
+	class MyThread:public Thread{
+	
+		public:
+		MyThread():Thread(TERMINATE_DELETE){ start(); }
+		virtual int run(){
+			while(true){
+				printf("hello from thread 1\n");
+			}
+			return 1;
+		}
+	};
+	
+	int main(){
+		MyThread myth1;
+		#ifdef	_WIN32
+			Sleep(2000);
+		#else
+			sleep(2);
+		#endif
+		return 0;
+	}
+
+
 The MIT License (MIT)
 -------
 
